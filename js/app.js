@@ -3,7 +3,7 @@ var ctx = c.getContext("2d");
 
 var game = {
   score: 0,
-  lives: 1,
+  lives: 3,
   state: "play",
   level: 1
 };
