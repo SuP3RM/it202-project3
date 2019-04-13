@@ -1,13 +1,14 @@
-let c = document.getElementById("myCanvas");
-let ctx = c.getContext("2d");
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
 
-let game = {
+var game = {
   score: 0,
-  lives: 3,
-  state: "play"
+  lives: 1,
+  state: "play",
+  level: 1
 };
 
-let gameObjects = [];
+var gameObjects = [];
 
 gameObjects.push({
   type: "player",
@@ -15,7 +16,7 @@ gameObjects.push({
   y: c.height / 2,
   r: 15,
   color: "green",
-  speed: 1
+  speed: 10
 });
 
 gameObjects.push({
@@ -36,13 +37,23 @@ gameObjects.push({
   speed: 1
 });
 
-let player = gameObjects[0];
+var player = gameObjects[0];
 
+// backgroundImg
+// var backgroundImg = new Image();
+// backgroundImg.src = "space.jpg";
+//
+// ctx.font = "30px Comic Sans MS";
+// ctx.fillStyle = "red";
+// ctx.textAlign = "center";
 
 function draw() {
+  ctx.canvas.width  = window.innerWidth;
+  ctx.canvas.height = window.innerHeight;
+
   // clear canvas
   ctx.clearRect(0, 0, c.width, c.height);
-
+  // ctx.drawImage(backgroundImg, 0, 0);
   // draw objects
 
   for (idx in gameObjects) {
@@ -55,47 +66,75 @@ function draw() {
 
     if (g.type != "player") {
 
-      g.x += g.speed;
+      g.x -= g.speed * game.level;
 
       if (colliding(player, g)) {
         if (g.type == "harm") {
           game.lives--;
         } else if (g.type == "benefit") {
           game.score += 100;
+
+          if (game.score % 100 == 0) {
+            game.level++;
+
+            if (game.level % 2 == 0) {
+              gameObjects.push({
+                type: "harm",
+                x: 100,
+                y: 75,
+                r: 10,
+                color: "red",
+                speed: 1
+              });
+            }
+
+          }
+
         }
         console.log(game);
+
+        g.state = "collision"
       }
 
-
-
-      if (g.x - g.r > c.width) {
-        g.x = 0 - g.r;
+      if ((g.x + g.r < 0) || g.state == "collision") {
+        g.x = c.width + g.r;
         g.y = Math.random() * (c.height - 0) + 0;
-        // g.speed += 1;
+        g.state = "";
       }
     }
   }
 
+  // draw text
+  ctx.fillText("Score: " + game.score + " - Lives: " + game.lives, c.width / 2, 30);
+
   // next frame
-  window.requestAnimationFrame(draw);
+  if (game.lives > 0) {
+    window.requestAnimationFrame(draw);
+  } else {
+    gameOver();
+  }
+
 }
 
+function gameOver() {
+  ctx.clearRect(0, 0, c.width, c.height);
+  // ctx.drawImage(backgroundImg, 0, 0);
+  ctx.fillText("Game Over", c.width / 2, c.height / 2);
+
+}
 
 window.requestAnimationFrame(draw);
 
-
 function colliding(circle1, circle2) {
-  let result = false;
+  var result = false;
 
-  let dx = circle1.x - circle2.x;
-  let dy = circle1.y - circle2.y;
-  let distance = Math.sqrt(dx * dx + dy * dy);
+  var dx = circle1.x - circle2.x;
+  var dy = circle1.y - circle2.y;
+  var distance = Math.sqrt(dx * dx + dy * dy);
 
   if (distance < circle1.r + circle2.r) {
-    // collision detected!
     result = true;
   }
-
 
   return result;
 }
