@@ -1,14 +1,16 @@
-var c = document.getElementById("myCanvas");
-var ctx = c.getContext("2d");
+let c = document.getElementById("myCanvas");
+let ctx = c.getContext("2d");
+ctx.canvas.width  = window.innerWidth;
+ctx.canvas.height = window.innerHeight;
 
-var game = {
+let game = {
   score: 0,
   lives: 3,
   state: "play",
   level: 1
 };
 
-var gameObjects = [];
+let gameObjects = [];
 
 gameObjects.push({
   type: "player",
@@ -25,7 +27,7 @@ gameObjects.push({
   y: 75,
   r: 10,
   color: "red",
-  speed: 1
+  speed: 5
 });
 
 gameObjects.push({
@@ -34,26 +36,19 @@ gameObjects.push({
   y: 25,
   r: 20,
   color: "yellow",
-  speed: 1
+  speed: 2.5
 });
 
-var player = gameObjects[0];
+let player = gameObjects[0];
 
 // backgroundImg
-// var backgroundImg = new Image();
-// backgroundImg.src = "space.jpg";
-//
-// ctx.font = "30px Comic Sans MS";
-// ctx.fillStyle = "red";
-// ctx.textAlign = "center";
+let backgroundImg = new Image();
+backgroundImg.src = "blackTheme.jpg";
 
 function draw() {
-  ctx.canvas.width  = window.innerWidth;
-  ctx.canvas.height = window.innerHeight;
-
   // clear canvas
   ctx.clearRect(0, 0, c.width, c.height);
-  // ctx.drawImage(backgroundImg, 0, 0);
+  ctx.drawImage(backgroundImg, 0, 0, c.width, c.height);
   // draw objects
 
   for (idx in gameObjects) {
@@ -105,7 +100,9 @@ function draw() {
   }
 
   // draw text
-  ctx.fillText("Score: " + game.score + " - Lives: " + game.lives, c.width / 2, 30);
+  ctx.font = "20px Comic Sans MS";
+  ctx.textAlign = "center";
+  ctx.fillText("Score: " + game.score + " - Lives: " + game.lives, c.width / 2, 20);
 
   // next frame
   if (game.lives > 0) {
@@ -118,7 +115,11 @@ function draw() {
 
 function gameOver() {
   ctx.clearRect(0, 0, c.width, c.height);
-  // ctx.drawImage(backgroundImg, 0, 0);
+  ctx.drawImage(backgroundImg, 0, 0, c.width, c.height);
+  // font for Game Over Screen
+  ctx.font = "250px Comic Sans MS";
+  ctx.fillStyle = "red";
+  ctx.textAlign = "center";
   ctx.fillText("Game Over", c.width / 2, c.height / 2);
 
 }
@@ -126,11 +127,11 @@ function gameOver() {
 window.requestAnimationFrame(draw);
 
 function colliding(circle1, circle2) {
-  var result = false;
+  let result = false;
 
-  var dx = circle1.x - circle2.x;
-  var dy = circle1.y - circle2.y;
-  var distance = Math.sqrt(dx * dx + dy * dy);
+  let dx = circle1.x - circle2.x;
+  let dy = circle1.y - circle2.y;
+  let distance = Math.sqrt(dx * dx + dy * dy);
 
   if (distance < circle1.r + circle2.r) {
     result = true;
