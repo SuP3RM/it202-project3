@@ -100,8 +100,9 @@ function draw() {
   }
 
   // draw text
-  ctx.font = "20px Comic Sans MS";
+  ctx.font = "24px Comic Sans MS";
   ctx.textAlign = "center";
+  ctx.fillStyle = "cyan";
   ctx.fillText("Score: " + game.score + " - Lives: " + game.lives, c.width / 2, 20);
 
   // next frame
@@ -118,7 +119,7 @@ function gameOver() {
   ctx.drawImage(backgroundImg, 0, 0, c.width, c.height);
   // font for Game Over Screen
   ctx.font = "250px Comic Sans MS";
-  ctx.fillStyle = "red";
+  ctx.fillStyle = "cyan";
   ctx.textAlign = "center";
   ctx.fillText("Game Over", c.width / 2, c.height / 2);
 
