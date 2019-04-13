@@ -79,7 +79,7 @@ function draw() {
                 y: 75,
                 r: 10,
                 color: "red",
-                speed: 1
+                speed: game.level
               });
             }
 
@@ -103,7 +103,7 @@ function draw() {
   ctx.font = "24px Comic Sans MS";
   ctx.textAlign = "center";
   ctx.fillStyle = "cyan";
-  ctx.fillText("Score: " + game.score + " - Lives: " + game.lives, c.width / 2, 20);
+  ctx.fillText("Score: " + game.score + " Player Lives: " + game.lives, c.width / 2, 20);
 
   // next frame
   if (game.lives > 0) {
