@@ -1,5 +1,7 @@
 let c = document.getElementById("myCanvas");
 let ctx = c.getContext("2d");
+
+// for canvas width set to device's innerWidth
 ctx.canvas.width  = window.innerWidth;
 ctx.canvas.height = window.innerHeight;
 
@@ -22,7 +24,7 @@ gameObjects.push({
 });
 
 gameObjects.push({
-  type: "harm",
+  type: "enemy",
   x: 100,
   y: 75,
   r: 10,
@@ -31,7 +33,7 @@ gameObjects.push({
 });
 
 gameObjects.push({
-  type: "benefit",
+  type: "oneUpLife",
   x: 20,
   y: 25,
   r: 20,
@@ -64,17 +66,17 @@ function draw() {
       g.x -= g.speed * game.level;
 
       if (colliding(player, g)) {
-        if (g.type == "harm") {
+        if (g.type == "enemy") {
           game.lives--;
-        } else if (g.type == "benefit") {
+        } else if (g.type == "oneUpLife") {
           game.score += 100;
-
+          // mario here
           if (game.score % 100 == 0) {
             game.level++;
 
             if (game.level % 2 == 0) {
               gameObjects.push({
-                type: "harm",
+                type: "enemy",
                 x: 100,
                 y: 75,
                 r: 10,
@@ -99,7 +101,7 @@ function draw() {
     }
   }
 
-  // draw text
+  // font for score and number of lives
   ctx.font = "24px Comic Sans MS";
   ctx.textAlign = "center";
   ctx.fillStyle = "cyan";
@@ -117,8 +119,9 @@ function draw() {
 function gameOver() {
   ctx.clearRect(0, 0, c.width, c.height);
   ctx.drawImage(backgroundImg, 0, 0, c.width, c.height);
+
   // font for Game Over Screen
-  ctx.font = "250px Comic Sans MS";
+  ctx.font = "200px Comic Sans MS";
   ctx.fillStyle = "cyan";
   ctx.textAlign = "center";
   ctx.fillText("Game Over", c.width / 2, c.height / 2);
@@ -143,11 +146,9 @@ function colliding(circle1, circle2) {
 
 document.onkeydown = checkKey;
 
+// key events to use arrow keys
 function checkKey(e) {
-
   e = e || window.event;
-
-  // console.log(e);
   if (e.keyCode == '38') {
     // up arrow
     player.y -= player.speed;
