@@ -19,7 +19,7 @@ gameObjects.push({
   x: 20,
   y: c.height / 2,
   r: 15,
-  color: "green",
+  color: "white",
   speed: 10
 });
 
@@ -27,8 +27,8 @@ gameObjects.push({
   type: "enemy",
   x: 100,
   y: 75,
-  r: 10,
-  color: "red",
+  r: 30,
+  color: "white",
   speed: 5
 });
 
@@ -37,7 +37,7 @@ gameObjects.push({
   x: 20,
   y: 25,
   r: 20,
-  color: "yellow",
+  color: "green",
   speed: 2.5
 });
 
@@ -57,9 +57,8 @@ function draw() {
     g = gameObjects[idx];
     ctx.beginPath();
     ctx.arc(g.x, g.y, g.r, 0, 2 * Math.PI);
-    //ctx.stroke();
-    ctx.fillStyle = g.color;
-    ctx.fill();
+    ctx.strokeStyle = g.color;
+    ctx.stroke();
 
     if (g.type != "player") {
 
@@ -70,7 +69,7 @@ function draw() {
           game.lives--;
         } else if (g.type == "oneUpLife") {
           game.score += 100;
-          // mario here
+          // console.log('mario here')
           if (game.score % 100 == 0) {
             game.level++;
 
@@ -88,7 +87,6 @@ function draw() {
           }
 
         }
-        console.log(game);
 
         g.state = "collision"
       }
@@ -102,7 +100,7 @@ function draw() {
   }
 
   // font for score and number of lives
-  ctx.font = "24px Comic Sans MS";
+  ctx.font = "24px Impact, Charcoal, sans-serif";
   ctx.textAlign = "center";
   ctx.fillStyle = "cyan";
   ctx.fillText("Score: " + game.score + " Player Lives: " + game.lives, c.width / 2, 20);
@@ -129,7 +127,7 @@ function gameOver() {
 
 }
 
-// Credit to Ryan Waite for the clock/timer, used from last project:
+// Credit to Ryan Waite for the clock/timer:
 // https://github.com/ryanwaite28/script-store/blob/master/js/stop-watch.js
 // clock/timer
 let StopWatch = function StopWatch() {
