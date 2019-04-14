@@ -2,7 +2,7 @@ let c = document.getElementById("myCanvas");
 let ctx = c.getContext("2d");
 
 // for canvas width set to device's innerWidth
-ctx.canvas.width  = window.innerWidth;
+ctx.canvas.width = window.innerWidth;
 ctx.canvas.height = window.innerHeight;
 
 let game = {
@@ -53,8 +53,8 @@ function draw() {
   ctx.drawImage(backgroundImg, 0, 0, c.width, c.height);
   // draw objects
 
-  for (idx in gameObjects) {
-    g = gameObjects[idx];
+  for (i in gameObjects) {
+    g = gameObjects[i];
     ctx.beginPath();
     ctx.arc(g.x, g.y, g.r, 0, 2 * Math.PI);
     ctx.strokeStyle = g.color;
@@ -83,14 +83,10 @@ function draw() {
                 speed: game.level
               });
             }
-
           }
-
         }
-
         g.state = "collision"
       }
-
       if ((g.x + g.r < 0) || g.state == "collision") {
         g.x = c.width + g.r;
         g.y = Math.random() * (c.height - 0) + 0;
